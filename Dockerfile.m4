@@ -29,8 +29,7 @@ RUN ./configure --prefix=/usr --with-readline
 RUN make -j"$(nproc)"
 RUN ./install
 RUN file /usr/bin/oil.ovm
-RUN oil --version
-RUN osh --version
+RUN oil.ovm --version
 
 ##################################################
 ## "base" stage
@@ -49,8 +48,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 # Copy Oil shell build
 COPY --from=build --chown=root:root /usr/bin/oil.ovm /usr/bin/
-COPY --from=build --chown=root:root /usr/bin/oil /usr/bin/
-COPY --from=build --chown=root:root /usr/bin/osh /usr/bin/
+RUN ln -rs /usr/bin/oil.ovm /usr/bin/oil
+RUN ln -rs /usr/bin/oil.ovm /usr/bin/osh
 
 ##################################################
 ## "test" stage
