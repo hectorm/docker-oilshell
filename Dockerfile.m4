@@ -51,6 +51,13 @@ COPY --from=build --chown=root:root /usr/bin/oil.ovm /usr/bin/
 RUN ln -rs /usr/bin/oil.ovm /usr/bin/oil
 RUN ln -rs /usr/bin/oil.ovm /usr/bin/osh
 
+# Set OSH as default shell
+SHELL ["/usr/bin/osh", "-c"]
+ENV SHELL=/usr/bin/osh
+RUN chsh -s /usr/bin/osh
+
+ENTRYPOINT ["/usr/bin/oil"]
+
 ##################################################
 ## "test" stage
 ##################################################
@@ -67,5 +74,3 @@ RUN test "$(osh -c "${TEST_IN:?}" 2>&1)" = "${TEST_OUT:?}"
 ##################################################
 
 FROM base AS main
-
-ENTRYPOINT ["/usr/bin/oil"]
