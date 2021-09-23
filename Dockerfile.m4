@@ -64,10 +64,16 @@ ENTRYPOINT ["/usr/bin/oil"]
 
 FROM base AS test
 
-ENV TEST_IN="hello() { printf 'hello %s\n' \"\${1:?}\"; }; hello world"
-ENV TEST_OUT="hello world"
-RUN test "$(oil -c "${TEST_IN:?}" 2>&1)" = "${TEST_OUT:?}"
-RUN test "$(osh -c "${TEST_IN:?}" 2>&1)" = "${TEST_OUT:?}"
+# Install system packages
+RUN export DEBIAN_FRONTEND=noninteractive \
+	&& apt-get update \
+	&& apt-get install -y --no-install-recommends \
+		ca-certificates \
+		curl
+
+# Run some complex scripts
+RUN curl -fsSL 'https://raw.githubusercontent.com/dylanaraps/pfetch/0.6.0/pfetch' | osh
+RUN curl -fsSL 'https://raw.githubusercontent.com/dylanaraps/neofetch/7.1.0/neofetch' | osh
 
 ##################################################
 ## "main" stage
