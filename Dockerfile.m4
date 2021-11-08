@@ -80,3 +80,6 @@ RUN curl -fsSL 'https://raw.githubusercontent.com/dylanaraps/neofetch/7.1.0/neof
 ##################################################
 
 FROM base AS main
+
+# Dummy instruction so BuildKit does not skip the test stage
+RUN --mount=type=bind,from=test,source=/mnt/,target=/mnt/
