@@ -18,9 +18,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		libreadline-dev
 
 # Build Oil shell
-ARG OILSHELL_VERSION=0.9.6
+ARG OILSHELL_VERSION=0.9.7
 ARG OILSHELL_TARBALL_URL=https://www.oilshell.org/download/oil-${OILSHELL_VERSION}.tar.gz
-ARG OILSHELL_TARBALL_CHECKSUM=62601d6acfa8102496d5eccf6b15c4e478e2a00ef085c5f90b8a5e1c1b919506
+ARG OILSHELL_TARBALL_CHECKSUM=5c0574bd8926914edf5d8b0c29e7a39f83ce8be81c11c35c8ff5213d79a03426
 RUN curl -Lo /tmp/oilshell.tgz "${OILSHELL_TARBALL_URL:?}"
 RUN printf '%s' "${OILSHELL_TARBALL_CHECKSUM:?}  /tmp/oilshell.tgz" | sha256sum -c
 RUN mkdir /tmp/oilshell/ && tar -xzf /tmp/oilshell.tgz --strip-components=1 -C /tmp/oilshell/
