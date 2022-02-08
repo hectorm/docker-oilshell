@@ -15,7 +15,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		ca-certificates \
 		curl \
 		file \
-		libreadline-dev
+		libreadline-dev \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Build Oil shell
 ARG OILSHELL_VERSION=0.9.7
@@ -69,7 +70,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		ca-certificates \
-		curl
+		curl \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Run some complex scripts
 RUN curl -fsSL 'https://raw.githubusercontent.com/dylanaraps/pfetch/0.6.0/pfetch' | osh
