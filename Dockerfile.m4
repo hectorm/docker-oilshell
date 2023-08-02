@@ -19,9 +19,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Build Oil shell
-ARG OILSHELL_VERSION=0.16.0
+ARG OILSHELL_VERSION=0.17.0
 ARG OILSHELL_TARBALL_URL=https://www.oilshell.org/download/oil-${OILSHELL_VERSION}.tar.gz
-ARG OILSHELL_TARBALL_CHECKSUM=4cfb601d5dbcaf01d25b3168a1e3647b8537c5b9866561225d8d38f9b61450c1
+ARG OILSHELL_TARBALL_CHECKSUM=f98ccad432ce05363312a9f2f34597564a6178522b20761a21554553703b6605
 RUN curl -Lo /tmp/oilshell.tgz "${OILSHELL_TARBALL_URL:?}"
 RUN printf '%s' "${OILSHELL_TARBALL_CHECKSUM:?}  /tmp/oilshell.tgz" | sha256sum -c
 RUN mkdir /tmp/oilshell/ && tar -xzf /tmp/oilshell.tgz --strip-components=1 -C /tmp/oilshell/
