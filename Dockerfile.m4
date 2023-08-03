@@ -20,17 +20,18 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 # Build Oil shell
 ARG OILSHELL_VERSION=0.17.0
-ARG OILSHELL_TARBALL_URL=https://www.oilshell.org/download/oil-${OILSHELL_VERSION}.tar.gz
-ARG OILSHELL_TARBALL_CHECKSUM=f98ccad432ce05363312a9f2f34597564a6178522b20761a21554553703b6605
+ARG OILSHELL_TARBALL_URL=https://www.oilshell.org/download/oils-for-unix-${OILSHELL_VERSION}.tar.gz
+ARG OILSHELL_TARBALL_CHECKSUM=ca1bae85b9d45129527c766eb7f9d61d377388f693c695c82a76a4fbc8fb7371
 RUN curl -Lo /tmp/oilshell.tgz "${OILSHELL_TARBALL_URL:?}"
 RUN printf '%s' "${OILSHELL_TARBALL_CHECKSUM:?}  /tmp/oilshell.tgz" | sha256sum -c
 RUN mkdir /tmp/oilshell/ && tar -xzf /tmp/oilshell.tgz --strip-components=1 -C /tmp/oilshell/
 WORKDIR /tmp/oilshell/
 RUN ./configure --prefix=/usr
-RUN make -j"$(nproc)"
+RUN ./_build/oils.sh
 RUN ./install
-RUN file /usr/bin/oil.ovm
-RUN oil.ovm --version
+RUN file /usr/bin/oils-for-unix
+RUN osh --version
+RUN ysh --version
 
 ##################################################
 ## "base" stage
@@ -48,16 +49,16 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Copy Oil shell build
-COPY --from=build --chown=root:root /usr/bin/oil.ovm /usr/bin/
-RUN ln -rs /usr/bin/oil.ovm /usr/bin/oil
-RUN ln -rs /usr/bin/oil.ovm /usr/bin/osh
+COPY --from=build --chown=root:root /usr/bin/oils-for-unix /usr/bin/
+RUN ln -rs /usr/bin/oils-for-unix /usr/bin/osh
+RUN ln -rs /usr/bin/oils-for-unix /usr/bin/ysh
 
 # Set OSH as default shell
 SHELL ["/usr/bin/osh", "-c"]
 ENV SHELL=/usr/bin/osh
 RUN chsh -s /usr/bin/osh
 
-ENTRYPOINT ["/usr/bin/oil"]
+ENTRYPOINT ["/usr/bin/ysh"]
 
 ##################################################
 ## "test" stage
