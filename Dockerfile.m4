@@ -21,7 +21,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 # Build Oil shell
 ARG OILSHELL_VERSION=0.18.0
 ARG OILSHELL_TARBALL_URL=https://www.oilshell.org/download/oils-for-unix-${OILSHELL_VERSION}.tar.gz
-ARG OILSHELL_TARBALL_CHECKSUM=bc87ed40618267dae8a260f4ddb99e22e4badfe4e268062e0b9fc139d3588930
+ARG OILSHELL_TARBALL_CHECKSUM=f5177ab35bb425f635b90e720b24b269f7a3915ca193f52c3e6223a02d0683f9
 RUN curl -Lo /tmp/oilshell.tgz "${OILSHELL_TARBALL_URL:?}"
 RUN printf '%s' "${OILSHELL_TARBALL_CHECKSUM:?}  /tmp/oilshell.tgz" | sha256sum -c
 RUN mkdir /tmp/oilshell/ && tar -xzf /tmp/oilshell.tgz --strip-components=1 -C /tmp/oilshell/
