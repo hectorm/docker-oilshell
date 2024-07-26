@@ -42,7 +42,7 @@ m4_ifdef([[CROSS_ARCH]], [[FROM docker.io/CROSS_ARCH/ubuntu:24.04]], [[FROM dock
 RUN export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends \
-		libreadline8 \
+		libreadline8t64 \
 		libtinfo6 \
 	&& rm -rf /var/lib/apt/lists/*
 
