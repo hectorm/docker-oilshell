@@ -1,3 +1,3 @@
-# Oil shell
+# Oils
 
-A Docker image for [Oil shell](https://www.oilshell.org).
+A Docker image for [Oils](https://oils.pub).

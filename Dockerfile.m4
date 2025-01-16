@@ -17,14 +17,14 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		libreadline-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
-# Build Oil shell
-ARG OILSHELL_VERSION=0.24.0
-ARG OILSHELL_TARBALL_URL=https://www.oilshell.org/download/oils-for-unix-${OILSHELL_VERSION}.tar.gz
-ARG OILSHELL_TARBALL_CHECKSUM=df4afed94d53b303a782ce0380c393d60f6d21921ef2a25922b400828add98f3
-RUN curl -Lo /tmp/oilshell.tgz "${OILSHELL_TARBALL_URL:?}"
-RUN printf '%s' "${OILSHELL_TARBALL_CHECKSUM:?}  /tmp/oilshell.tgz" | sha256sum -c
-RUN mkdir /tmp/oilshell/ && tar -xzf /tmp/oilshell.tgz --strip-components=1 -C /tmp/oilshell/
-WORKDIR /tmp/oilshell/
+# Build Oils
+ARG OILS_VERSION=0.26.0
+ARG OILS_TARBALL_URL=https://oils.pub/download/oils-for-unix-${OILS_VERSION}.tar.gz
+ARG OILS_TARBALL_CHECKSUM=2b5b295a577a2763814203b4a34880ca03067a29eeb80af4857b6092314d6eed
+RUN curl -Lo /tmp/oils.tgz "${OILS_TARBALL_URL:?}"
+RUN printf '%s' "${OILS_TARBALL_CHECKSUM:?}  /tmp/oils.tgz" | sha256sum -c
+RUN mkdir /tmp/oils/ && tar -xzf /tmp/oils.tgz --strip-components=1 -C /tmp/oils/
+WORKDIR /tmp/oils/
 RUN ./configure --prefix=/usr
 RUN ./_build/oils.sh
 RUN ./install
@@ -46,7 +46,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		libtinfo6 \
 	&& rm -rf /var/lib/apt/lists/*
 
-# Copy Oil shell build
+# Copy Oils build
 COPY --from=build --chown=root:root /usr/bin/oils-for-unix /usr/bin/
 RUN ln -rs /usr/bin/oils-for-unix /usr/bin/osh
 RUN ln -rs /usr/bin/oils-for-unix /usr/bin/ysh
