@@ -18,9 +18,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Build Oils
-ARG OILS_VERSION=0.26.0
+ARG OILS_VERSION=0.29.0
 ARG OILS_TARBALL_URL=https://oils.pub/download/oils-for-unix-${OILS_VERSION}.tar.gz
-ARG OILS_TARBALL_CHECKSUM=2b5b295a577a2763814203b4a34880ca03067a29eeb80af4857b6092314d6eed
+ARG OILS_TARBALL_CHECKSUM=34fdb53f1dbd2b8742ef74cd3a46d87abfcda18d0d645f29762c4fddb9a2b3ac
 RUN curl -Lo /tmp/oils.tgz "${OILS_TARBALL_URL:?}"
 RUN printf '%s' "${OILS_TARBALL_CHECKSUM:?}  /tmp/oils.tgz" | sha256sum -c
 RUN mkdir /tmp/oils/ && tar -xzf /tmp/oils.tgz --strip-components=1 -C /tmp/oils/
